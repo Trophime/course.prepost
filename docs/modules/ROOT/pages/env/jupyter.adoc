@@ -1,6 +1,8 @@
 = {project_name} Notebook
 :stem: latexmath
 :page-jupyter: true
+:page-plotly: true
+:page-mpl3d: true
 
 [.lead]
 This is a Jupyter notebook for the {project_name} project.
@@ -33,53 +35,19 @@ To test the notebook, you can either use:
 
 You can include code cells in your notebook using the `[source,python]` block macro.
 
-[%dynamic,python]
+[%dynamic%open,python]
 ----
 import sys, os
 print("Hello, world!")
 ----
 
-== Plots with {matplolib}
-
-To create plots, you can do as follows:
-
-[source,python]
-----
-%matplotlib notebook
-import matplotlib.pyplot as plt
-import numpy as np
-
-fig, ax = plt.subplots()             # Create a figure containing a single Axes.
-ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the Axes.
-plt.show()                           # Show the figure.
-----
-
-[NOTE]
-====
-
-To get interactive plot, you can use `%matplotlib ipympl` provided that `pympl` packaged is installed. 
-
-====
-
-== Viewing Mesh with {pyvista} 
-
-You can check that `pyvista` package is running as expected:
-
-[%dynamic,python]
-----
-import pyvista as pv
-# uncomment the next line, if you cannot get the image
-# pv.start_xvfb()
-mesh = pv.Plane().triangulate()
-submesh = mesh.subdivide(2, 'linear')
-submesh.plot(show_edges=True)
-----
 
 == {feelpp} Code cells
 
 You can include {feelpp} code cells in your notebook using the `[source,python]` block macro.
+Use `[%dynamic%open,python]` to view the output.
 
-[source,python]
+[%dynamic%open,python]
 ----
 import feelpp.core as fppc
 app = fppc.Environment(["myapp"],config=fppc.globalRepository("myapp"))
@@ -88,7 +56,7 @@ import os
 print(f'pwd: {os.getcwd()}')
 
 geo=fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
-print("geo file: {}".format(geo))
+print(f"geo file: {geo}")
 mesh = fppc.load(fppc.mesh(dim=2,realdim=2), geo, 0.1)
 
 Xh=fppc.functionSpace(mesh=mesh, space="Pchv")
@@ -99,20 +67,48 @@ e.add("f",f)
 e.save()
 ----
 
-You can then visualize the result using the `pyvista` package as follows:
+To visualize the result, you can use the `pyvista` package. But, before, you need to fix the {ensight} case file as follows:
 
-[source,python]
+[%dynamic%open,python]
 ----
+print(f'pwd: {os.getcwd()}')
+
+# remove 'change_coords_only' after GEOMETRY/model filename.geo[***]
+outfile = open('exports/ensightgold/Exporter/tmp.case', 'w')
+with open("exports/ensightgold/Exporter/Exporter.case") as f:
+    for line in f:
+        print(f'line={line[:-1]}', end=" -> ")
+        line = line.replace('change_coords_only', '')
+        print(line[:-1])
+        outfile.write(line)
+    outfile.close()
+----
+
+Use `[%dynamic%raw%open,python]` to view the output:
+
+[%dynamic%raw%open,python]
+----
+print(f'pwd: {os.getcwd()}')
+
 import pyvista as pv
+# uncomment the next line, if you cannot get the image
 # pv.start_xvfb()
-reader = pv.get_reader("/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case")
+pv.set_jupyter_backend('static')
+reader = pv.get_reader("exports/ensightgold/Exporter/tmp.case")
 mesh = reader.read()
-mesh.plot(scalars="f",show_edges=True)
+mesh.plot(scalars="f",cpos='xy',show_scalar_bar=False)
 ----
+
+////
+[%dynamic%raw%open,python]
+----
+# remove tmp file
+import os
+os.remove(outfile)
+----
+////
 
 [NOTE]
 =====
-
 You may need to change the path to the ensight gold output file depending on your setup.
-
 =====

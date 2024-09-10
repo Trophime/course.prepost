@@ -1,1 +1,69 @@
 = {paraview} Environment
+
+== Run {paraview} on remote server
+
+The next steps describe how launch paraview from a local host with remote data on server.
+
+[IMPORTANT]
+====
+The client and the server must use the exact same version of {paraview}.
+====
+
+* Connect to server with remote ssh :
++
+----
+    ssh -Y -L 11111:localhost:11111 username@server
+----
+
+* In the remote ssh connect, run : 
++
+----
+    pvdataserver
+----
+
+* In an other terminal, on local host, run : 
++
+----
+    pvrenderserver
+----
+
+* In an other terminal, on local host, launch paraview : 
++
+----
+    paraview
+----
+
+* On paraview, go to Connect (`File>Connect`` or on Toolbar), Choose Server Configuration windows appears clic on `Add server`, enter the name :
++
+[cols="a"]
+|===
+|image::appendix/pvserver1.png[width=700,float="center",title="Choose Server Configuration windows", caption=""]
+|===
+
+
+** Name : name of your server
+** Server type `Client / Data Server / Render Server`
+** Data Server host : server
+** Data Server port : 11111
+** Render Server host : localhost
+** Render Server port 22221
++
+[cols="a"]
+|===
+|image::appendix/pvserver2.png[width=700,float="center",title="Edit Server Configuration windows", caption=""]
+|===
+
++
+Enter configure, a windows Edit Server Laucnh Configuration appears, choice `Manual` on Startup Type and Save
+
+[cols="a"]
+|===
+|image::appendix/pvserver3.png[width=700,float="center",title="Edit Server Launch Configuration windows", caption=""]
+|===
+
+* On Choose Server Configuration windows, select your server and clic on Connect. Now, you can read the data of your server, choice your data with `File->open.
+
+== Run {paraview} in Juptyter
+
+* https://gitlab.kitware.com/paraview/plugins/iparaview-kernel
+* pyvista + trame
