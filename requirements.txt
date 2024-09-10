@@ -1,8 +1,6 @@
 scipy
 numpy
 sympy
-matplotlib
-ipympl
 plotly
 dash
 dash-bootstrap-components
@@ -11,7 +9,11 @@ gmsh
 meshio
 ipython
 ipykernel
-pyvista[all]
+jupyterlab>=3
+ipywidgets
+pyvista[all,trame]
+trame_jupyter_extension<2
+jupyter-server-proxy 
 xvfbwrapper
 pythreejs
 requests

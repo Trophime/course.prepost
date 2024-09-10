@@ -1,7 +1,7 @@
 #FROM node:16.20.2-bookworm
 # try to use opengl noble ??
 # if so, feelpp need to be install and USERNAME defined if not exist: check with getent ??
-FROM ghcr.io/feelpp/feelpp:v0.111.0-preview.10-noble
+FROM ubuntu:24.04
 
 # Set one or more individual labels
 LABEL feelppdoc.lncmi.version="0.0.1-beta"
@@ -33,7 +33,7 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install apt-file && \
     apt-file update && \
-    apt-get -y install curl findutils jq yq coreutils bash-completion locate nmap vim-nox gpg
+    apt-get -y install curl findutils jq yq coreutils bash-completion locate nmap vim-nox gpg openssh-client
 
 # Install stuff for antora preview
 # test without caddy deb and guard-livereload gem
@@ -49,13 +49,13 @@ RUN apt-get update && \
 # use python3-pyvirtualdisplay: wrapper for Xvfb,.. instead of python3-xvfbwrapper?
 RUN apt-get -y install python-is-python3 python3-venv python3-xvfbwrapper libgl1-mesa-dev
 
-# # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.\
-# RUN groupadd --gid $USER_GID $USERNAME && \
-#     useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-#     # [Optional] Add sudo support for the non-root user
-#     apt-get install -y sudo lsb-release && \
-#     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-#     chmod 0440 /etc/sudoers.d/$USERNAME
+# Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.\
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+    # [Optional] Add sudo support for the non-root user
+    apt-get install -y sudo lsb-release && \
+    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME
 
 
 # add github ssh key
