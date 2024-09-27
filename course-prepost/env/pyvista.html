@@ -221,6 +221,9 @@ MathJax.Hub.Config({
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="container.html">Containers</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="plotly.html">Gmsh</a>
+  </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="pyvista.html">PyVista</a>
   </li>
@@ -335,7 +338,7 @@ MathJax.Hub.Config({
 <h2 id="_basic_operations"><a class="anchor" href="#_basic_operations"></a>1. Basic operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can check that <code>pyvista</code> package is running as expected:</p>
+<p>You can check <code>pyvista</code> configuration:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -343,15 +346,54 @@ MathJax.Hub.Config({
 print(pv.Report())</code></pre>
 </div>
 </div>
-<details class="dynamic-py-result dynamic-py-result-plotly" open>
+<details open>
 <summary class="title">Results</summary>
 <div class="content">
+<div class="literalblock dynamic-py-result">
+<div class="content">
+<pre>--------------------------------------------------------------------------------
+  Date: Fri Sep 27 10:42:16 2024 UTC
 
+                  OS : Linux (Ubuntu 24.04)
+              CPU(s) : 4
+             Machine : x86_64
+        Architecture : 64bit
+                 RAM : 15.6 GiB
+         Environment : IPython
+         File system : ext4
+          GPU Vendor : Mesa/X.org
+        GPU Renderer : llvmpipe (LLVM 15.0.6, 256 bits)
+         GPU Version : 4.5 (Core Profile) Mesa 22.3.2
+    MathText Support : True
+
+  Python 3.12.3 (main, Sep 11 2024, 14:17:37) [GCC 13.2.0]
+
+             pyvista : 0.44.1
+                 vtk : 9.3.1
+               numpy : 1.26.4
+          matplotlib : 3.9.2
+              scooby : 0.10.0
+               pooch : 1.8.2
+              pillow : 10.2.0
+             imageio : 2.35.1
+             IPython : 8.27.0
+            colorcet : 3.1.0
+             cmocean : 4.0.3
+          ipywidgets : 8.1.5
+               scipy : 1.11.4
+              meshio : 5.3.5
+               trame : 3.6.5
+        trame_client : 3.3.2
+        trame_server : 3.2.3
+           trame_vtk : 2.8.10
+       trame_vuetify : 2.7.1
+jupyter_server_proxy : 4.4.0
+        nest_asyncio : 1.6.0
+--------------------------------------------------------------------------------</pre>
+</div>
+</div>
 </div>
 </details>
-<div class="paragraph">
-<p>Next, if ..</p>
-</div>
 <div class="paragraph">
 <p>Here is a small example to plot a sphere:</p>
 </div>
@@ -360,9 +402,18 @@ print(pv.Report())</code></pre>
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">sphere = pv.Sphere()
 
 # short example
-sphere.plot(jupyter_backend='server')
+sphere.plot(jupyter_backend='server')</code></pre>
+</div>
+</div>
+<details class="dynamic-py-result dynamic-py-result-plotly" open>
+<summary class="title">Results</summary>
+<div class="content">
 
-# long example
+</div>
+</details>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># long example
 plotter = pv.Plotter(notebook=True)
 plotter.add_mesh(sphere)
 plotter.show(jupyter_backend='trame')</code></pre>
@@ -378,7 +429,7 @@ plotter.show(jupyter_backend='trame')</code></pre>
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">pv.set_jupyter_backend('client')
 mesh = pv.Plane().triangulate()
 submesh = mesh.subdivide(2, 'linear')
-submesh.plot(show_edges=True)</code></pre>
+submesh.plot(show_edges=True, cpos='xy', interactive=False)</code></pre>
 </div>
 </div>
 </div>
