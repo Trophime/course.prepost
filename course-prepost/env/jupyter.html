@@ -221,6 +221,9 @@ MathJax.Hub.Config({
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="container.html">Containers</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="pyvista.html">PyVista</a>
+  </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="jupyter.html">Jupyter Notebook</a>
   </li>
@@ -301,7 +304,7 @@ MathJax.Hub.Config({
 </nav>
 
   
-    <div class="edit-this-page"><a href="https://github.com/Trophime/CSMI-PrePost/edit/master/docs/modules/ROOT/pages/env/jupyter.adoc">Edit this Page</a></div>
+    <div class="edit-this-page"><a href="https://github.com/Trophime/course.prepost/edit/master/docs/modules/ROOT/pages/env/jupyter.adoc">Edit this Page</a></div>
   
   <div class="page-downloads">
   <span class="label">Download as</span>
@@ -349,29 +352,51 @@ MathJax.Hub.Config({
 </td>
 <td class="content">
 <div class="paragraph">
-<p>To run the notebook in VScode:</p>
+<p>For the doc contributors, to run the notebook in VScode:</p>
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>create a python virtual env</p>
-</li>
-<li>
-<p>install the required packages from 'requirements.tx'</p>
-</li>
-<li>
-<p>start vscode within this python virtual env</p>
-</li>
 <li>
 <p>select the kernel to use: use the previously created virtual env</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>To run the notebook, you can also use this docker image</p>
+<p>For the others, you need to download the notebook and run it in a separate way.
+To test the notebook, you can either use:</p>
 </div>
-<div class="paragraph">
-<p>To run the notebook in an already install jupyter</p>
+<div class="ulist">
+<ul>
+<li>
+<p>a local jupyter installation:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>create a python virtual environment</p>
+</li>
+<li>
+<p>install the requested packages</p>
+</li>
+<li>
+<p>start the the notebook</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>or a container (eg. docker image)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>get the container</p>
+</li>
+<li>
+<p>run the container with mounting &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -383,7 +408,8 @@ MathJax.Hub.Config({
 <h2 id="_code_cells"><a class="anchor" href="#_code_cells"></a>2. Code cells</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can include code cells in your notebook using the <code>[source,python]</code> block macro.</p>
+<p>You can include code cells in your notebook using the <code>[source,python]</code> block macro.
+To run and view the result use `[%dynamic%open,python]`block macro.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -391,28 +417,20 @@ MathJax.Hub.Config({
 print("Hello, world!")</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_mesh"><a class="anchor" href="#_mesh"></a>3. Mesh</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You can check that <code>pyvista</code> package is running as expected:</p>
-</div>
-<div class="listingblock">
+<details open>
+<summary class="title">Results</summary>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import pyvista as pv
-# uncomment the next line, if you don't have a nvidia graphic card
-# pv.start_xvfb()
-mesh = pv.Plane().triangulate()
-submesh = mesh.subdivide(2, 'linear')
-submesh.plot(show_edges=True)</code></pre>
+<div class="literalblock dynamic-py-result">
+<div class="content">
+<pre>Hello, world!</pre>
 </div>
 </div>
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_feel_code_cells"><a class="anchor" href="#_feel_code_cells"></a>4. Feel++ Code cells</h2>
+<h2 id="_feel_code_cells"><a class="anchor" href="#_feel_code_cells"></a>3. Feel++ Code cells</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can include Feel++ code cells in your notebook using the <code>[source,python]</code> block macro.</p>
@@ -421,6 +439,9 @@ submesh.plot(show_edges=True)</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import feelpp.core as fppc
 app = fppc.Environment(["myapp"],config=fppc.globalRepository("myapp"))
+
+import os
+print(f'pwd: {os.getcwd()}')
 
 geo=fppc.download( "github:{repo:feelpp,path:feelpp/quickstart/laplacian/cases/feelpp2d/feelpp2d.geo}", worldComm=app.worldCommPtr() )[0]
 print("geo file: {}".format(geo))
@@ -439,12 +460,45 @@ e.save()</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import pyvista as pv
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import os
+import pyvista as pv
 # pv.start_xvfb()
-reader = pv.get_reader("exports/ensightgold/Exporter/Exporter.case")
+
+# hack for vtk 9.3
+filename = "/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case"
+new_filename = "/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case.tmp"
+
+with new_filename, "w" as out:
+    with open(filename, "r") as in:
+        Lines = in.readlines()
+        for line in Lines:
+            out.write(line.replace('change_coord_only',''))
+
+os.rename(filename, 'f{filename}.orig')
+os.rename(new_filename, filename)
+
+# load "corrected" case
+reader = pv.get_reader("/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case")
 mesh = reader.read()
-mesh.plot(scalars="f",show_edges=True)</code></pre>
+mesh.plot(scalars="f",show_edges=True)
+
+# restore original case
+os.rename('f{filename}.orig', filename)</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You may need to change the path to the ensight gold output file depending on your setup.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
