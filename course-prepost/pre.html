@@ -222,7 +222,7 @@ MathJax.Hub.Config({
     <a class="nav-link" href="env/container.html">Containers</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="env/plotly.html">Gmsh</a>
+    <a class="nav-link" href="env/plotly.html">Plot.ly</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="env/pyvista.html">PyVista</a>
@@ -327,6 +327,8 @@ MathJax.Hub.Config({
 </aside>
 <article class="doc">
 <h1 class="page">PreProcessing</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>Covers:</p>
 </div>
@@ -340,8 +342,14 @@ MathJax.Hub.Config({
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>add diagram for the classical pipeline, use kroki/mermaid</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-mermaid hljs" data-lang="mermaid">add diagram for the classical pipeline, use kroki/mermaid
+graph TD
+      A(Geometry &lt;img src='/img/helix-cad.png' width='80' height='80' /&gt;) --&gt;|Repairing/Defeaturing| B(Mesh)
+      B --&gt;|Solve| C(PostProcessing &lt;img src='/img/helix-post.png'  width='80' height='80' /&gt;)
+      C --&gt;|Adapt/Move| B</code></pre>
+</div>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -350,18 +358,23 @@ MathJax.Hub.Config({
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-These operations may be difficult and time-consuming (up to several months to get a descent mesh).
-Moreover, CAD and meshing may also require a lot of CPU time and memory ressources.
+<div class="paragraph">
+<p>These operations may be difficult and time-consuming (up to several months to get a descent mesh).
+Moreover, CAD and meshing may also require a lot of CPU time and memory ressources.</p>
+</div>
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>The pipeline, eventually, need to be updated from the calculation if the problem is transient and/or the geometry is deformed.</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_quick_reminder_on_fem"><a class="anchor" href="#_quick_reminder_on_fem"></a>1. Quick reminder on FEM</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Quick reminder on FEM
-Need for identifying volume or surface and boundary</p>
+<p>Need for identifying volume or surface and boundary&#8230;&#8203;.</p>
+</div>
+</div>
 </div>
 </article>
   </div>
