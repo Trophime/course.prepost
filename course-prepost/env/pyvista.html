@@ -343,7 +343,8 @@ MathJax.Hub.Config({
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import pyvista as pv
-print(pv.Report())</code></pre>
+pv.start_xvfb()
+pv.Report()</code></pre>
 </div>
 </div>
 <details open>
@@ -351,8 +352,10 @@ print(pv.Report())</code></pre>
 <div class="content">
 <div class="literalblock dynamic-py-result">
 <div class="content">
-<pre>--------------------------------------------------------------------------------
-  Date: Tue Oct 01 15:35:09 2024 UTC
+<pre>Out[1]:
+
+--------------------------------------------------------------------------------
+  Date: Wed Oct 02 19:17:17 2024 UTC
 
                   OS : Linux (Ubuntu 24.04)
               CPU(s) : 4
@@ -376,7 +379,7 @@ print(pv.Report())</code></pre>
                pooch : 1.8.2
               pillow : 10.2.0
              imageio : 2.35.1
-             IPython : 8.27.0
+             IPython : 8.28.0
             colorcet : 3.1.0
              cmocean : 4.0.3
           ipywidgets : 8.1.5

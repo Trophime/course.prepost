@@ -463,30 +463,30 @@ e.save()</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import os
-import pyvista as pv
-# pv.start_xvfb()
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import pyvista as pv
+pv.start_xvfb()
+pv.set_jupyter_backend('client')
 
 # hack for vtk 9.3
 filename = "/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case"
-new_filename = "/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case.tmp"
+new_filename = f"{filename}.tmp"
 
-with new_filename, "w" as out:
-    with open(filename, "r") as in:
-        Lines = in.readlines()
+with open(new_filename, "w") as out:
+    with open(filename, "r") as input:
+        Lines = input.readlines()
         for line in Lines:
-            out.write(line.replace('change_coord_only',''))
+            out.write(line.replace('change_coords_only',''))
 
-os.rename(filename, 'f{filename}.orig')
+os.rename(filename, f'{filename}.orig')
 os.rename(new_filename, filename)
 
 # load "corrected" case
-reader = pv.get_reader("/home/feelpp/feelppdb/myapp/np_1/exports/ensightgold/Exporter/Exporter.case")
+reader = pv.get_reader(filename)
 mesh = reader.read()
-mesh.plot(scalars="f",show_edges=True)
+mesh.plot(scalars="f",show_edges=True, cpos='xy', interactive=False)
 
-# restore original case
-os.rename('f{filename}.orig', filename)</code></pre>
+# restore initial case file
+# os.rename(f'{filename}.orig', filename)</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
