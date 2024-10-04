@@ -327,7 +327,130 @@ MathJax.Hub.Config({
 </aside>
 <article class="doc">
 <h1 class="page">ParaView Environment</h1>
-
+<div class="sect1">
+<h2 id="_run_paraview_on_remote_server"><a class="anchor" href="#_run_paraview_on_remote_server"></a>1. Run paraview on remote server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The next steps describe how launch paraview from a local host with remote data on server.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connect to server with remote ssh :</p>
+<div class="listingblock">
+<div class="content">
+<pre>    ssh -Y -L 11111:localhost:11111 username@server</pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the remote ssh connect, run :</p>
+<div class="listingblock">
+<div class="content">
+<pre>    pvdataserver</pre>
+</div>
+</div>
+</li>
+<li>
+<p>In an other terminal, on local host, run :</p>
+<div class="listingblock">
+<div class="content">
+<pre>    pvrenderserver</pre>
+</div>
+</div>
+</li>
+<li>
+<p>In an other terminal, on local host, launch paraview :</p>
+<div class="listingblock">
+<div class="content">
+<pre>    paraview</pre>
+</div>
+</div>
+</li>
+<li>
+<p>On paraview, go to Connect (File&gt;Connect or on Toolbar), Choose Server Configuration windows appears clic on <code>Add server</code>, enter the name :</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock center">
+<div class="content">
+<img src="../_images/appendix/pvserver1.png" alt="pvserver1" width="700">
+</div>
+<div class="title">Choose Server Configuration windows</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>Name : name of your server</p>
+</li>
+<li>
+<p>Server type <code>Client / Data Server / Render Server</code></p>
+</li>
+<li>
+<p>Data Server host : server</p>
+</li>
+<li>
+<p>Data Server port : 11111</p>
+</li>
+<li>
+<p>Render Server host : localhost</p>
+</li>
+<li>
+<p>Render Server port 22221</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock center">
+<div class="content">
+<img src="../_images/appendix/pvserver2.png" alt="pvserver2" width="700">
+</div>
+<div class="title">Edit Server Configuration windows</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Enter configure, a windows Edit Server Laucnh Configuration appears, choice <code>Manual</code> on Startup Type and Save</p>
+</div>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="imageblock center">
+<div class="content">
+<img src="../_images/appendix/pvserver3.png" alt="pvserver3" width="700">
+</div>
+<div class="title">Edit Server Launch Configuration windows</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>On Choose Server Configuration windows, select your server and clic on Connect. Now, you can read the data of your server, choice your data with File&gt;open.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </article>
   </div>
 </main>
