@@ -3,8 +3,9 @@
 * xref:pre.adoc[]
 ** xref:pre/cad/cad.adoc[]
 ** xref:pre/mesh/mesh.adoc[]
-* PostProcessing
-** xref:post/post.adoc[]
+* xref:post.adoc[]
+** xref:post/scalar/scalar.adoc[]
+** xref:post/vector/vector.adoc[]
 * Setting up the development Environment
 ** xref:env/antora.adoc[]
 ** xref:env/vscode.adoc[]
